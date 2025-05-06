@@ -55,6 +55,8 @@ public class AnimeSearchAdapter extends RecyclerView.Adapter<AnimeSearchAdapter.
             intent.putExtra("synopsis", anime.getSynopsis());
             intent.putExtra("watchedEpisodes", 0);
             intent.putExtra("status", "Watchlist");
+            intent.putExtra("trailerUrl", anime.getTrailerUrl());
+
             context.startActivity(intent);
         });
     }

@@ -1,5 +1,7 @@
 package com.ysharma.animetracker;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
@@ -13,7 +15,7 @@ public class AnimeDetailsActivity extends AppCompatActivity {
     private TextView titleText, episodesText, scoreText, yearText, typeText, synopsisText;
     private ImageView animeImage;
     private Spinner statusSpinner;
-    private Button saveButton;
+    private Button saveButton, watchTrailerButton;
 
     private TextView episodesWatchedText;
     private Button plusButton, minusButton;
@@ -22,7 +24,7 @@ public class AnimeDetailsActivity extends AppCompatActivity {
     private int totalEpisodes = 0;
     private int watchedEpisodes = 0;
 
-    private String title, imageUrl, year, synopsis;
+    private String title, imageUrl, year, synopsis, trailerUrl;
     private int episodes;
     private double score;
 
@@ -31,6 +33,7 @@ public class AnimeDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_anime_details);
 
+        // Views
         animeImage = findViewById(R.id.animeImage);
         titleText = findViewById(R.id.animeTitle);
         episodesText = findViewById(R.id.animeEpisodes);
@@ -43,6 +46,7 @@ public class AnimeDetailsActivity extends AppCompatActivity {
         episodesWatchedText = findViewById(R.id.episodesWatchedText);
         plusButton = findViewById(R.id.plusButton);
         minusButton = findViewById(R.id.minusButton);
+        watchTrailerButton = findViewById(R.id.watchTrailerButton); // ✅
 
         // Get intent data
         title = getIntent().getStringExtra("title");
@@ -50,25 +54,36 @@ public class AnimeDetailsActivity extends AppCompatActivity {
         episodes = getIntent().getIntExtra("episodes", 0);
         score = getIntent().getDoubleExtra("score", 0);
         year = getIntent().getStringExtra("year");
-        synopsis = getIntent().getStringExtra("synopsis"); // ✅ new
-        if (synopsis == null) synopsis = "No synopsis available.";
-
+        synopsis = getIntent().getStringExtra("synopsis");
+        trailerUrl = getIntent().getStringExtra("trailerUrl"); // ✅ NEW
         String type = getIntent().getStringExtra("type");
         watchedEpisodes = getIntent().getIntExtra("watchedEpisodes", 0);
         selectedStatus = getIntent().getStringExtra("status");
 
+        if (synopsis == null) synopsis = "No synopsis available.";
         if (selectedStatus == null) selectedStatus = "Watchlist";
         totalEpisodes = episodes;
 
-        // Set UI
+        // Set data
         titleText.setText(title);
         episodesText.setText("Episodes: " + episodes);
         scoreText.setText("Score: " + score);
         yearText.setText("Year: " + year);
         typeText.setText("Type: " + type);
-        synopsisText.setText(synopsis); // ✅ set synopsis
+        synopsisText.setText(synopsis);
         Glide.with(this).load(imageUrl).into(animeImage);
 
+        // Trailer button
+        if (trailerUrl != null && !trailerUrl.isEmpty()) {
+            watchTrailerButton.setOnClickListener(v -> {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(trailerUrl));
+                startActivity(intent);
+            });
+        } else {
+            watchTrailerButton.setVisibility(View.GONE);
+        }
+
+        // Spinner setup
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this, R.array.status_options, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -78,8 +93,7 @@ public class AnimeDetailsActivity extends AppCompatActivity {
         statusSpinner.setSelection(spinnerPos);
 
         statusSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+            @Override public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 selectedStatus = parent.getItemAtPosition(pos).toString();
                 updateEpisodeTrackerUI();
             }
@@ -108,7 +122,7 @@ public class AnimeDetailsActivity extends AppCompatActivity {
                 watchedEpisodes = totalEpisodes;
             }
 
-            AnimeItem anime = new AnimeItem(title, imageUrl, episodes, score, year, watchedEpisodes, synopsis); // ✅ new constructor
+            AnimeItem anime = new AnimeItem(title, imageUrl, episodes, score, year, watchedEpisodes, synopsis);
             DatabaseReference db = FirebaseDatabase.getInstance().getReference("animeTracker");
 
             db.child(selectedStatus.toLowerCase()).push().setValue(anime)

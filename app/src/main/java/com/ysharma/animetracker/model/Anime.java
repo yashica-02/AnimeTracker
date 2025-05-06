@@ -8,6 +8,14 @@ public class Anime {
     private Integer year;
     private Images images;
     public String synopsis;
+    private Trailer trailer;
+    public static class Trailer {
+        public String url;
+    }
+    public String getTrailerUrl() {
+        return trailer != null ? trailer.url : null;
+    }
+
 
     public String getTitle() {
         return title;
