@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "832728326496",
+    "project_id": "animetracker-74aad",
+    "storage_bucket": "animetracker-74aad.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:832728326496:android:3e1a7298aff6151c03be05",
+        "android_client_info": {
+          "package_name": "com.ysharma.animetracker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQgXlNzdAniJ86EOCm7BuZoVHXYlXo--g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">AnimeTracker</string>
+    <string-array name="status_options">
+        <item>Watchlist</item>
+        <item>Watching</item>
+        <item>Completed</item>
+    </string-array>
+</resources>
