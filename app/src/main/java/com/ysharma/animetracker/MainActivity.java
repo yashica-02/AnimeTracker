@@ -1,15 +1,16 @@
 package com.ysharma.animetracker;
 
 import android.content.Intent;
-import android.view.Menu;
-import android.view.MenuInflater;
-import com.google.android.material.appbar.MaterialToolbar;
-import android.view.MenuItem;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,32 +19,41 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // 🔐 Check login
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
+        }
+
         setContentView(R.layout.activity_main);
 
-        MaterialToolbar toolbar = findViewById(R.id.mainToolbar);
+        // Toolbar
+        Toolbar toolbar = findViewById(R.id.mainToolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Anime Tracker");
 
-        // Find views
+        // ViewPager & Tabs
         ViewPager2 viewPager = findViewById(R.id.viewPager);
         TabLayout tabLayout = findViewById(R.id.tabLayout);
-
-        // Set adapter for ViewPager
         viewPager.setAdapter(new ViewPagerAdapter(this));
 
-        // Link ViewPager with TabLayout
         new TabLayoutMediator(tabLayout, viewPager,
                 (tab, position) -> tab.setText(titles[position])
         ).attach();
     }
 
+    // Inflate menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
 
+    // Handle menu actions
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
         if (id == R.id.menu_search) {

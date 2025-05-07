@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
 
 public class EditAnimeActivity extends AppCompatActivity {
@@ -21,6 +22,7 @@ public class EditAnimeActivity extends AppCompatActivity {
     private double score;
 
     private DatabaseReference database;
+    private String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,21 +50,20 @@ public class EditAnimeActivity extends AppCompatActivity {
         year = getIntent().getStringExtra("year");
         watchedEpisodes = getIntent().getIntExtra("watchedEpisodes", 0);
         originalStatus = getIntent().getStringExtra("status");
+        synopsis = getIntent().getStringExtra("synopsis");
         firebaseKey = getIntent().getStringExtra("firebaseKey");
-        synopsis = getIntent().getStringExtra("synopsis"); // ✅ NEW
 
-        if (synopsis == null) synopsis = "No synopsis available.";
         if (originalStatus == null) originalStatus = "watchlist";
         newStatus = originalStatus;
+        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        database = FirebaseDatabase.getInstance().getReference("animeTracker");
 
-        // Set UI values
+        // Set view data
         Glide.with(this).load(image).into(animeImage);
         titleText.setText(title);
         episodesText.setText("Episodes: " + totalEpisodes);
         scoreText.setText("Score: " + score);
         yearText.setText("Year: " + year);
-
-        database = FirebaseDatabase.getInstance().getReference("animeTracker");
 
         // Spinner setup
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
@@ -83,7 +84,6 @@ public class EditAnimeActivity extends AppCompatActivity {
             @Override public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        // Episode buttons
         plusButton.setOnClickListener(v -> {
             if (watchedEpisodes < totalEpisodes) {
                 watchedEpisodes++;
@@ -98,7 +98,7 @@ public class EditAnimeActivity extends AppCompatActivity {
             }
         });
 
-        // Save logic
+        // ✅ Save/update logic
         saveButton.setOnClickListener(v -> {
             if (newStatus.equalsIgnoreCase("completed")) {
                 watchedEpisodes = totalEpisodes;
@@ -110,29 +110,37 @@ public class EditAnimeActivity extends AppCompatActivity {
             String newKey = newStatus.toLowerCase();
 
             if (firebaseKey != null && !originalKey.equals(newKey)) {
-                database.child(originalKey).child(firebaseKey)
+                // ✅ MOVING between lists
+                database.child(uid).child(originalKey).child(firebaseKey)
                         .removeValue()
-                        .addOnSuccessListener(aVoid -> saveToNewList(updatedAnime, newKey))
-                        .addOnFailureListener(e -> Toast.makeText(this, "Failed to remove old entry", Toast.LENGTH_SHORT).show());
+                        .addOnSuccessListener(aVoid -> {
+                            database.child(uid).child(newKey).push().setValue(updatedAnime)
+                                    .addOnSuccessListener(done ->
+                                            Toast.makeText(this, "Anime moved to " + capitalize(newKey), Toast.LENGTH_SHORT).show())
+                                    .addOnFailureListener(e ->
+                                            Toast.makeText(this, "Failed to move: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                        })
+                        .addOnFailureListener(e ->
+                                Toast.makeText(this, "Failed to remove from " + originalKey, Toast.LENGTH_SHORT).show());
+
             } else if (firebaseKey != null) {
-                database.child(originalKey).child(firebaseKey)
+                // ✅ Updating within the same list
+                database.child(uid).child(originalKey).child(firebaseKey)
                         .setValue(updatedAnime)
-                        .addOnSuccessListener(aVoid -> Toast.makeText(this, "Anime updated!", Toast.LENGTH_SHORT).show())
-                        .addOnFailureListener(e -> Toast.makeText(this, "Update failed: " + e.getMessage(), Toast.LENGTH_LONG).show());
+                        .addOnSuccessListener(aVoid ->
+                                Toast.makeText(this, "Anime updated!", Toast.LENGTH_SHORT).show())
+                        .addOnFailureListener(e ->
+                                Toast.makeText(this, "Update failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+
             } else {
-                saveToNewList(updatedAnime, newKey);
+                // 🚨 Shouldn't happen — fallback
+                database.child(uid).child(newKey).push().setValue(updatedAnime)
+                        .addOnSuccessListener(aVoid ->
+                                Toast.makeText(this, "Anime added to " + capitalize(newKey), Toast.LENGTH_SHORT).show())
+                        .addOnFailureListener(e ->
+                                Toast.makeText(this, "Save failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
             }
         });
-    }
-
-    private void saveToNewList(AnimeItem anime, String newKey) {
-        database.child(newKey).push().setValue(anime)
-                .addOnSuccessListener(aVoid ->
-                        Toast.makeText(this, "Anime moved to " + capitalize(newKey), Toast.LENGTH_SHORT).show()
-                )
-                .addOnFailureListener(e ->
-                        Toast.makeText(this, "Failed to save: " + e.getMessage(), Toast.LENGTH_LONG).show()
-                );
     }
 
     private void updateEpisodeUI() {
@@ -141,14 +149,10 @@ public class EditAnimeActivity extends AppCompatActivity {
 
         episodesWatchedLabel.setVisibility(showProgress || isCompleted ? View.VISIBLE : View.GONE);
         episodesWatchedText.setVisibility(showProgress || isCompleted ? View.VISIBLE : View.GONE);
-
         plusButton.setVisibility(showProgress ? View.VISIBLE : View.GONE);
         minusButton.setVisibility(showProgress ? View.VISIBLE : View.GONE);
 
-        if (isCompleted) {
-            watchedEpisodes = totalEpisodes;
-        }
-
+        if (isCompleted) watchedEpisodes = totalEpisodes;
         updateEpisodeDisplay();
     }
 

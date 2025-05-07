@@ -123,15 +123,20 @@ public class AnimeDetailsActivity extends AppCompatActivity {
             }
 
             AnimeItem anime = new AnimeItem(title, imageUrl, episodes, score, year, watchedEpisodes, synopsis);
-            DatabaseReference db = FirebaseDatabase.getInstance().getReference("animeTracker");
 
-            db.child(selectedStatus.toLowerCase()).push().setValue(anime)
+            //Get current user UID
+            String uid = com.google.firebase.auth.FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+            //Store anime under the user's UID
+            DatabaseReference db = FirebaseDatabase.getInstance().getReference("animeTracker");
+            db.child(uid).child(selectedStatus.toLowerCase()).push().setValue(anime)
                     .addOnSuccessListener(aVoid ->
                             Toast.makeText(this, title + " added to " + selectedStatus, Toast.LENGTH_SHORT).show()
                     )
                     .addOnFailureListener(e ->
                             Toast.makeText(this, "Failed to save: " + e.getMessage(), Toast.LENGTH_LONG).show()
                     );
+
         });
     }
 
