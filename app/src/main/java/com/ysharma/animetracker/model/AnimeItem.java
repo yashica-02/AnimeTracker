@@ -1,4 +1,4 @@
-package com.ysharma.animetracker;
+package com.ysharma.animetracker.model;
 
 public class AnimeItem {
     public String title;

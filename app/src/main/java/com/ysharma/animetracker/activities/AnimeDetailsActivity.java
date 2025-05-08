@@ -1,4 +1,4 @@
-package com.ysharma.animetracker;
+package com.ysharma.animetracker.activities;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -7,8 +7,11 @@ import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.ysharma.animetracker.model.AnimeItem;
+import com.ysharma.animetracker.R;
 
 public class AnimeDetailsActivity extends AppCompatActivity {
 
@@ -32,6 +35,11 @@ public class AnimeDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_anime_details);
+
+        MaterialToolbar toolbar = findViewById(R.id.detailsToolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Anime Details");
 
         // Views
         animeImage = findViewById(R.id.animeImage);
@@ -162,5 +170,12 @@ public class AnimeDetailsActivity extends AppCompatActivity {
     private String capitalize(String str) {
         if (str == null || str.length() == 0) return "";
         return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
+    }
+
+    //Back Button
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }

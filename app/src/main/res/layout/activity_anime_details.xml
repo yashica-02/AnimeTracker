@@ -1,13 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:padding="16dp"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/detailsToolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:title="Anime Details"
+        android:titleTextColor="@android:color/white" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/animeImage"
@@ -53,7 +67,6 @@
             android:layout_height="wrap_content"
             android:text="Synopsis goes here" />
 
-        <!-- Status Dropdown -->
         <TextView
             android:text="Status"
             android:textStyle="bold"
@@ -66,7 +79,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <!-- Episode Tracker -->
         <TextView
             android:text="Episodes Watched"
             android:textStyle="bold"
@@ -103,12 +115,13 @@
                 android:layout_marginStart="8dp" />
         </LinearLayout>
 
-        <!-- Save Button -->
         <Button
             android:id="@+id/saveButton"
             android:text="Save Changes"
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-    </LinearLayout>
-</ScrollView>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,4 +1,4 @@
-package com.ysharma.animetracker;
+package com.ysharma.animetracker.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.ysharma.animetracker.R;
+import com.ysharma.animetracker.activities.AnimeDetailsActivity;
 import com.ysharma.animetracker.model.Anime;
 
 import java.util.List;

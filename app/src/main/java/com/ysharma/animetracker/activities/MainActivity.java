@@ -1,4 +1,4 @@
-package com.ysharma.animetracker;
+package com.ysharma.animetracker.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,8 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseAuth;
+import com.ysharma.animetracker.R;
+import com.ysharma.animetracker.adapter.ViewPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.ysharma.animetracker;
+package com.ysharma.animetracker.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
+import com.ysharma.animetracker.R;
+import com.ysharma.animetracker.activities.EditAnimeActivity;
+import com.ysharma.animetracker.model.AnimeItem;
+
 import java.util.List;
 
 public class AnimeListAdapter extends RecyclerView.Adapter<AnimeListAdapter.ViewHolder> {

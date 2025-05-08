@@ -1,4 +1,4 @@
-package com.ysharma.animetracker;
+package com.ysharma.animetracker.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,47 +9,50 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.auth.FirebaseAuth;
+import com.ysharma.animetracker.R;
+import com.ysharma.animetracker.adapter.AnimeListAdapter;
+import com.ysharma.animetracker.model.AnimeItem;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import androidx.annotation.NonNull;
 
-
-public class WatchlistFragment extends Fragment {
+public class CompletedFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private AnimeListAdapter adapter;
     private List<AnimeItem> animeList = new ArrayList<>();
 
-    public WatchlistFragment() {}
+    public CompletedFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_watchlist, container, false);
+        View view = inflater.inflate(R.layout.fragment_completed, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        adapter = new AnimeListAdapter(animeList, getContext(), "watchlist");
+        adapter = new AnimeListAdapter(animeList, getContext(), "completed");
         recyclerView.setAdapter(adapter);
 
-        loadWatchlist();
+        loadCompletedList();
 
         return view;
     }
 
-    private void loadWatchlist() {
+    private void loadCompletedList() {
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         FirebaseDatabase.getInstance().getReference("animeTracker")
                 .child(uid)
-                .child("watchlist")
+                .child("completed")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {

@@ -1,4 +1,4 @@
-package com.ysharma.animetracker;
+package com.ysharma.animetracker.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +14,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.ysharma.animetracker.R;
+import com.ysharma.animetracker.adapter.AnimeListAdapter;
+import com.ysharma.animetracker.model.AnimeItem;
 
 import java.util.ArrayList;
 import java.util.List;

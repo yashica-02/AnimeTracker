@@ -1,4 +1,4 @@
-package com.ysharma.animetracker;
+package com.ysharma.animetracker.activities;
 
 import android.os.Bundle;
 import android.view.inputmethod.EditorInfo;
@@ -7,13 +7,13 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
+import com.ysharma.animetracker.adapter.AnimeSearchAdapter;
+import com.ysharma.animetracker.R;
 import com.ysharma.animetracker.api.AnimeApiService;
 import com.ysharma.animetracker.model.Anime;
 import com.ysharma.animetracker.model.AnimeResponse;
-
+import com.google.android.material.appbar.MaterialToolbar;
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -29,8 +29,13 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        MaterialToolbar toolbar = findViewById(R.id.searchToolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Search Anime");
+
         searchInput = findViewById(R.id.searchInput);
-        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.searchResultsRecycler);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -62,4 +67,11 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
+
 }

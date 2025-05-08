@@ -15,16 +15,16 @@
         android:theme="@style/Theme.AnimeTracker"
         tools:targetApi="31">
 
-        <activity android:name=".SplashActivity"
+        <activity android:name=".activities.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".activities.LoginActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,10 +32,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SearchActivity" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".AnimeDetailsActivity" />
-        <activity android:name=".EditAnimeActivity" />
+        <activity android:name=".activities.SearchActivity" />
+        <activity android:name=".activities.ProfileActivity" />
+        <activity android:name=".activities.AnimeDetailsActivity" />
+        <activity android:name=".activities.EditAnimeActivity" />
+        <activity android:name=".activities.SignupActivity" />
+
 
     </application>
 

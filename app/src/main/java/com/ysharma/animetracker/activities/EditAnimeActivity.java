@@ -1,12 +1,15 @@
-package com.ysharma.animetracker;
+package com.ysharma.animetracker.activities;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
+import com.ysharma.animetracker.model.AnimeItem;
+import com.ysharma.animetracker.R;
 
 public class EditAnimeActivity extends AppCompatActivity {
 
@@ -28,6 +31,11 @@ public class EditAnimeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_anime);
+
+        MaterialToolbar toolbar = findViewById(R.id.editToolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Edit Anime");
 
         // Views
         animeImage = findViewById(R.id.animeImage);
@@ -141,6 +149,13 @@ public class EditAnimeActivity extends AppCompatActivity {
                                 Toast.makeText(this, "Save failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
             }
         });
+    }
+
+    //Back Button
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 
     private void updateEpisodeUI() {
