@@ -68,7 +68,7 @@
             android:contentDescription="Edit"
             android:padding="8dp"
             android:src="@android:drawable/ic_menu_edit"
-            android:tint="#000000" />
+            app:tint="#000000" />
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

@@ -1,3 +1,4 @@
+//Created by Yashica Sharma
 package com.ysharma.animetracker.activities;
 
 import android.content.Intent;
@@ -15,19 +16,13 @@ import com.ysharma.animetracker.R;
 
 public class AnimeDetailsActivity extends AppCompatActivity {
 
-    private TextView titleText, episodesText, scoreText, yearText, typeText, synopsisText;
+    private TextView titleText, episodesText, scoreText, yearText, typeText, synopsisText, episodesWatchedText;
     private ImageView animeImage;
     private Spinner statusSpinner;
-    private Button saveButton, watchTrailerButton;
-
-    private TextView episodesWatchedText;
-    private Button plusButton, minusButton;
-
-    private String selectedStatus;
+    private Button saveButton, watchTrailerButton, plusButton, minusButton;
+    private String title, imageUrl, year, synopsis, trailerUrl, selectedStatus;
     private int totalEpisodes = 0;
     private int watchedEpisodes = 0;
-
-    private String title, imageUrl, year, synopsis, trailerUrl;
     private int episodes;
     private double score;
 
@@ -54,7 +49,7 @@ public class AnimeDetailsActivity extends AppCompatActivity {
         episodesWatchedText = findViewById(R.id.episodesWatchedText);
         plusButton = findViewById(R.id.plusButton);
         minusButton = findViewById(R.id.minusButton);
-        watchTrailerButton = findViewById(R.id.watchTrailerButton); // ✅
+        watchTrailerButton = findViewById(R.id.watchTrailerButton);
 
         // Get intent data
         title = getIntent().getStringExtra("title");
@@ -63,7 +58,7 @@ public class AnimeDetailsActivity extends AppCompatActivity {
         score = getIntent().getDoubleExtra("score", 0);
         year = getIntent().getStringExtra("year");
         synopsis = getIntent().getStringExtra("synopsis");
-        trailerUrl = getIntent().getStringExtra("trailerUrl"); // ✅ NEW
+        trailerUrl = getIntent().getStringExtra("trailerUrl");
         String type = getIntent().getStringExtra("type");
         watchedEpisodes = getIntent().getIntExtra("watchedEpisodes", 0);
         selectedStatus = getIntent().getStringExtra("status");

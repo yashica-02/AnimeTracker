@@ -1,3 +1,4 @@
+//Created by Yashica Sharma
 package com.ysharma.animetracker.adapter;
 
 import android.content.Context;
@@ -21,7 +22,7 @@ public class AnimeListAdapter extends RecyclerView.Adapter<AnimeListAdapter.View
 
     private List<AnimeItem> animeList;
     private Context context;
-    private String currentTabStatus; // ✅ watchlist, watching, completed
+    private String currentTabStatus;
 
     public AnimeListAdapter(List<AnimeItem> animeList, Context context, String currentTabStatus) {
         this.animeList = animeList;
@@ -66,12 +67,12 @@ public class AnimeListAdapter extends RecyclerView.Adapter<AnimeListAdapter.View
             intent.putExtra("year", anime.year);
             intent.putExtra("watchedEpisodes", anime.watchedEpisodes);
             intent.putExtra("firebaseKey", anime.firebaseKey);
-            intent.putExtra("status", currentTabStatus); // ✅ Correct source list
+            intent.putExtra("status", currentTabStatus);
             intent.putExtra("synopsis", anime.synopsis);
             context.startActivity(intent);
         });
 
-        // Tap on card also opens Edit
+        // Tap on card also opens Edit (will change in later versions)
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, EditAnimeActivity.class);
             intent.putExtra("title", anime.title);
@@ -81,7 +82,7 @@ public class AnimeListAdapter extends RecyclerView.Adapter<AnimeListAdapter.View
             intent.putExtra("year", anime.year);
             intent.putExtra("watchedEpisodes", anime.watchedEpisodes);
             intent.putExtra("firebaseKey", anime.firebaseKey);
-            intent.putExtra("status", currentTabStatus); // ✅ Correct source list
+            intent.putExtra("status", currentTabStatus);
             intent.putExtra("synopsis", anime.synopsis);
             context.startActivity(intent);
         });

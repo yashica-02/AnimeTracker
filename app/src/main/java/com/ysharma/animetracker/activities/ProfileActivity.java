@@ -1,3 +1,4 @@
+//Created by Yashica Sharma
 package com.ysharma.animetracker.activities;
 
 import android.content.Intent;
@@ -19,7 +20,6 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        // ✅ Toolbar setup
         MaterialToolbar toolbar = findViewById(R.id.profileToolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -1,3 +1,4 @@
+//Created by Yashica Sharma
 package com.ysharma.animetracker.activities;
 
 import android.os.Bundle;
@@ -14,18 +15,13 @@ import com.ysharma.animetracker.R;
 public class EditAnimeActivity extends AppCompatActivity {
 
     private ImageView animeImage;
-    private TextView titleText, episodesText, scoreText, yearText;
+    private TextView titleText, episodesText, scoreText, yearText, episodesWatchedText, episodesWatchedLabel;
     private Spinner statusSpinner;
     private Button plusButton, minusButton, saveButton;
-    private TextView episodesWatchedText, episodesWatchedLabel;
-
-    private String originalStatus, newStatus, firebaseKey;
+    private String title, image, year, synopsis, originalStatus, newStatus, firebaseKey, uid;
     private int totalEpisodes, watchedEpisodes;
-    private String title, image, year, synopsis;
     private double score;
-
     private DatabaseReference database;
-    private String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +102,7 @@ public class EditAnimeActivity extends AppCompatActivity {
             }
         });
 
-        // ✅ Save/update logic
+        //Save/update logic
         saveButton.setOnClickListener(v -> {
             if (newStatus.equalsIgnoreCase("completed")) {
                 watchedEpisodes = totalEpisodes;
@@ -118,7 +114,6 @@ public class EditAnimeActivity extends AppCompatActivity {
             String newKey = newStatus.toLowerCase();
 
             if (firebaseKey != null && !originalKey.equals(newKey)) {
-                // ✅ MOVING between lists
                 database.child(uid).child(originalKey).child(firebaseKey)
                         .removeValue()
                         .addOnSuccessListener(aVoid -> {
@@ -132,7 +127,6 @@ public class EditAnimeActivity extends AppCompatActivity {
                                 Toast.makeText(this, "Failed to remove from " + originalKey, Toast.LENGTH_SHORT).show());
 
             } else if (firebaseKey != null) {
-                // ✅ Updating within the same list
                 database.child(uid).child(originalKey).child(firebaseKey)
                         .setValue(updatedAnime)
                         .addOnSuccessListener(aVoid ->
@@ -141,7 +135,6 @@ public class EditAnimeActivity extends AppCompatActivity {
                                 Toast.makeText(this, "Update failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
 
             } else {
-                // 🚨 Shouldn't happen — fallback
                 database.child(uid).child(newKey).push().setValue(updatedAnime)
                         .addOnSuccessListener(aVoid ->
                                 Toast.makeText(this, "Anime added to " + capitalize(newKey), Toast.LENGTH_SHORT).show())

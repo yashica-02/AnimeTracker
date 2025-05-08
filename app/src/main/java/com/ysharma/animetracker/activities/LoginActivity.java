@@ -1,3 +1,4 @@
+//Created by Yashica Sharma
 package com.ysharma.animetracker.activities;
 
 import android.content.Intent;
@@ -46,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener(authResult -> {
-                    Toast.makeText(this, "Welcome back 💖", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Welcome back!!", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(this, MainActivity.class));
                     finish();
                 })

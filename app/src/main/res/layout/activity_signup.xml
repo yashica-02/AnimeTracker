@@ -53,7 +53,7 @@
         <TextView
             android:id="@+id/loginLink"
             android:text="Already have an account? Log in here"
-            android:textColor="@android:color/holo_blue_dark"
+            android:textColor="@color/purple_500"
             android:textStyle="bold"
             android:layout_marginTop="24dp"
             android:layout_width="wrap_content"

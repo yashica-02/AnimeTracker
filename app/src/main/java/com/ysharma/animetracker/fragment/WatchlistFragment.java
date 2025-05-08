@@ -1,14 +1,13 @@
+//Created by Yashica Sharma
 package com.ysharma.animetracker.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -17,11 +16,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.ysharma.animetracker.R;
 import com.ysharma.animetracker.adapter.AnimeListAdapter;
 import com.ysharma.animetracker.model.AnimeItem;
-
 import java.util.ArrayList;
 import java.util.List;
 import androidx.annotation.NonNull;
-
 
 public class WatchlistFragment extends Fragment {
 
@@ -69,7 +66,7 @@ public class WatchlistFragment extends Fragment {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        // Handle error here if needed
+                        // Error handling to be done in later versions
                     }
                 });
     }

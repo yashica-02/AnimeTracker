@@ -1,3 +1,4 @@
+//Created by Yashica Sharma
 package com.ysharma.animetracker.activities;
 
 import android.content.Intent;
@@ -46,7 +47,7 @@ public class SignupActivity extends AppCompatActivity {
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener(authResult -> {
-                    Toast.makeText(this, "Account created 🎉", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Account created!!", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(this, MainActivity.class));
                     finish();
                 })

@@ -1,10 +1,10 @@
+//Created by Yashica Sharma
 package com.ysharma.animetracker.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
-
 import com.ysharma.animetracker.fragment.CompletedFragment;
 import com.ysharma.animetracker.fragment.WatchingFragment;
 import com.ysharma.animetracker.fragment.WatchlistFragment;
